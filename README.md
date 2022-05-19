@@ -1,32 +1,21 @@
--- themes
-local themes = {
-Background = Color3.fromRGB(24, 24, 24),
-Glow = Color3.fromRGB(0, 0, 0),
-Accent = Color3.fromRGB(10, 10, 10),
-LightContrast = Color3.fromRGB(20, 20, 20),
-DarkContrast = Color3.fromRGB(14, 14, 14),  
-TextColor = Color3.fromRGB(255, 255, 255)
-}
-
-local placeId = game.PlaceId
-				if placeId == 2753915549 then
-					world1 = true
-				elseif placeId == 4442272183 then
-					world2 = true
-					_G.EN = true
-				elseif placeId == 7449423635 then
-					world3 = true
-					_G.EN = true
-				end
-
-
 local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/zxciaz/VenyxUI/main/Reuploaded"))() --someone reuploaded it so I put it in place of the original back up so guy can get free credit.
 local venyx = library.new("ทำส่งงานพี่นูป", 5013109572)
 
 local page = venyx:addPage("Genaral", 5012544693)
 local Tab1 = page:addSection("Main")
 
-
+local page = venyx:addPage("Teleport", 5012544693)
+local Tab2 = page:addSection("Telport")
+Tab2:addButton("Start Island", function()
+local TweenService = game:GetService("TweenService")
+local Tw = TweenService:Create(game.Players.LocalPlayer.Character.HumanoidRootPart, TweenInfo.new(20, Enum.EasingStyle.Linear, Enum.EasingDirection.Out,0,false,0), 
+{CFrame = CFrame.new(1071.2832, 16.3085976, 1426.86792)}):Play()
+end)
+Tab2:addButton("Marine Start", function()
+    local TweenService = game:GetService("TweenService")
+local Tw = TweenService:Create(game.Players.LocalPlayer.Character.HumanoidRootPart, TweenInfo.new(20, Enum.EasingStyle.Linear, Enum.EasingDirection.Out,0,false,0), 
+{CFrame = CFrame.new(-2573.3374, 6.88881969, 2046.99817)}):Play()
+end)
 
 
 
@@ -121,35 +110,6 @@ Tab1:addToggle("Bing Mob", false, function(value)
                     end
                 end
                 end)
-
-
-
-Tab1:addButton("Fast Attack", function()
-        local Module = require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework)
-        local CombatFramework = debug.getupvalues(Module)[2]
-        local CameraShakerR = require(game.ReplicatedStorage.Util.CameraShaker)
-        spawn(function()
-            while true do
-                if _G.FastAttack then
-                    pcall(function()
-                        CameraShakerR:Stop()
-                        CombatFramework.activeController.attacking = false
-                        CombatFramework.activeController.timeToNextAttack = 0
-                        CombatFramework.activeController.increment = 3
-                        CombatFramework.activeController.hitboxMagnitude = 100
-                        CombatFramework.activeController.blocking = false
-                        CombatFramework.activeController.timeToNextBlock = 0
-                        CombatFramework.activeController.focusStart = 0
-                        CombatFramework.activeController.humanoid.AutoRotate = true
-                    end)
-                end
-                task.wait()
-            end
-        end)
-
-end)
-				
-
 Tab1:addButton("Redeem Code", function()
 function UseCode(Text)
                game:GetService("ReplicatedStorage").Remotes.Redeem:InvokeServer(Text)
@@ -175,6 +135,23 @@ function UseCode(Text)
                 UseCode("Magicbus")
                 UseCode("Starcodeheo")
 end)
+Tab1:addButton("Fast Attack", function()
+local CombatFramework = require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework)
+local Camera = require(game.ReplicatedStorage.Util.CameraShaker)
+Camera:Stop()
+coroutine.wrap(function()
+    game:GetService("RunService").Stepped:Connect(function()
+        if getupvalues(CombatFramework)[2]['activeController'].timeToNextAttack then
+            getupvalues(CombatFramework)[2]['activeController'].timeToNextAttack = 0
+            getupvalues(CombatFramework)[2]['activeController'].hitboxMagnitude = 25
+            getupvalues(CombatFramework)[2]['activeController']:attack()
+        end
+    end)
+end)()
+
+				
+
+
 
 
 
@@ -998,15 +975,4 @@ function cq()
         end
     end
 end
-local page = venyx:addPage("Teleport", 5012544693)
-local Tab2 = page:addSection("Telport")
-Tab2:addButton("Start Island", function()
-local TweenService = game:GetService("TweenService")
-local Tw = TweenService:Create(game.Players.LocalPlayer.Character.HumanoidRootPart, TweenInfo.new(20, Enum.EasingStyle.Linear, Enum.EasingDirection.Out,0,false,0), 
-{CFrame = CFrame.new(1071.2832, 16.3085976, 1426.86792)}):Play()
-end)
-Tab2:addButton("Marine Start", function()
-    local TweenService = game:GetService("TweenService")
-local Tw = TweenService:Create(game.Players.LocalPlayer.Character.HumanoidRootPart, TweenInfo.new(20, Enum.EasingStyle.Linear, Enum.EasingDirection.Out,0,false,0), 
-{CFrame = CFrame.new(-2573.3374, 6.88881969, 2046.99817)}):Play()
 end)
